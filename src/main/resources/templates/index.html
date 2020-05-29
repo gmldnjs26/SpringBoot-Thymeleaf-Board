@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+<body>
+	<div class="wrapper">
+		<!-- Sidebar Holder -->
+		<nav th:replace="fragments/sidebar :: sidebar"></nav>
+
+		<!-- Page Content Holder -->
+		<div id="content">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container-fluid">
+
+					<button type="button" id="sidebarCollapse" class="navbar-btn">
+						<span></span> <span></span> <span></span>
+					</button>
+					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
+						type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<i class="fas fa-align-justify"></i>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarsupported">
+						<ul class="nav navbar-nav ml-auto">
+							<li class="nav-item"><a
+								th:if="${session.loginMember} == null"
+								class="nav-link nav-login" href="#">Login</a> <a
+								th:unless="${session.loginMember} == null" class="nav-link"
+								href="#" th:text="${session.loginMember.id}"></a></li>
+							<li class="nav-item"><a
+								th:if="${session.loginMember} == null" class="nav-link nav-join"
+								href="#">Join</a>
+								<form th:unless="${session.loginMember} == null"
+									th:action="@{/logout}" method="post">
+									<input type="submit" class="nav-link nav-logout-button"
+										value="Logout">
+								</form></li>
+							<li class="nav-item"><a class="nav-link" th:href="@{/login}">Page</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+			<div class="card">
+				<div class="card-block">
+					<table class="table table-hover">
+						<thead class="thead-dark">
+							<tr>
+								<th>Kind</th>
+								<th>Title</th>
+								<th>Writer</th>
+								<th>Indate</th>
+								<th>Hit</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="boardVO :${boardList}">
+								<td th:text="${boardVO.b_kind}"></td>
+								<td><a class="a_title"
+									th:href="@{/board/findOne/(b_code=${boardVO.b_code})}"
+									th:text="${boardVO.b_title}"></a></td>
+								<!--<td class="btn"
+									th:onclick='|javascript:view_board(${boardVO.b_code})|'
+									th:text="${boardVO.b_title}"> </td> -->
+								<td th:text="${boardVO.b_writer}"></td>
+								<td th:text="${boardVO.b_indate}"></td>
+								<td><a th:href="@{findOne/(b_code=${boardVO.b_code})}"
+									class="btn btn-primary eBtn">Edit</a></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<hr />
+					<a href="/board/write" class="btn btn-primary eBtn">Write</a>
+					<!-- Paging  -->
+				
+					<div class="pagination2"
+						th:with="start=${pageMaker.startPage}, end=${pageMaker.endPage}">
+						<a th:if="${pageMaker.prev}"
+							th:href="@{/board/list(page=${pageMaker.startPage-1})}"
+							class="prev"> <i class="fa fa-angle-double-left"></i></a>
+							
+						<a th:each="num: ${#numbers.sequence(start,end)}"
+							th:href="@{/board/list(page=${num})}" class="page-number">
+							<i  th:text="${num}"></i>
+						</a>
+						<a th:if="${pageMaker.next && pageMaker.endPage >0 }"
+							th:href="@{/board/list(page=${pageMaker.endPage+1})}"
+							class="next"> <i class="fa fa-angle-double-right"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments/mymodal::mymodal"></div>
+
+	<script th:inline="javascript">
+	if([[${ isLogin }]]) {
+		$('.mymodal #elegantModalForm').modal('show');
+	}
+	</script>
+</body>
+
+</html>

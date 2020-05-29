@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="com.board.mapper.BoardMapper">
+	<resultMap type="com.board.dto.BoardVO" id="board">
+		<result column="b_kind" property="b_kind" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result column="b_code" property="b_code"/>
+		<result column="b_title" property="b_title"/>
+		<result column="b_content" property="b_content"/>
+		<result column="b_indate" property="b_indate"/>
+		<result column="b_hit" property="b_hit"/>
+		<result column="b_like" property="b_like"/>
+		<result column="b_writer" property="b_writer"/>
+		
+	</resultMap>
+
+	<select id="getAllBoardList" resultMap="board">
+		select * from board
+	</select>
+	
+	<select id="getPagingBoardList" resultMap="board" parameterType="utils.CriteriaVO">
+		SELECT P.* 
+		FROM (SELECT * FROM BOARD 
+		         WHERE B_TITLE LIKE CONCAT('%',#{searchKeyword},'%') 
+		         ORDER BY B_CODE ASC) AS P
+		LIMIT #{perPageNum} OFFSET #{pageStart}
+	</select>
+	
+	<select id="getTotalRecord" resultType="Integer">
+		select count(*) from board
+	</select>
+	
+	<insert id="save" parameterType="com.board.dto.BoardVO">
+		INSERT INTO BOARD(b_title,b_content,b_writer,b_kind) 
+		VALUES(
+			#{b_title},
+			#{b_content},
+			#{b_writer},
+			#{b_kind, typeHandler = org.apache.ibatis.type.EnumOrdinalTypeHandler}
+		)
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM BOARD WHERE B_CODE = #{b_code}
+	</delete>
+	
+	<select id="findOne" parameterType="int" resultMap="board">
+		SELECT * FROM BOARD WHERE B_CODE = #{b_code}
+	</select>
+
+</mapper>

@@ -14,4 +14,5 @@ public interface BoardMapper {
 	public BoardVO findOne(int b_code);
 	public int getTotalRecord();
 	public List<BoardVO> getPagingBoardList(CriteriaVO cri);
+	public void updateHit(int b_code);
 }

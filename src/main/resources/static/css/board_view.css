@@ -1,7 +1,8 @@
 .ArticleContentBox {
 	padding: 29px 29px 0;
 	border: 1px solid #ddd;
-	border-radius: 6px
+	border-radius: 6px;
+	width: 75%;
 }
 
 .ArticleContentBox .article_header {

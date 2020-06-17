@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.board.dto.BoardKind;
 import com.board.dto.BoardVO;
 import com.board.service.BoardService;
+import com.board.service.CommentService;
 
 import utils.CriteriaVO;
 import utils.PageMaker;
@@ -18,6 +19,8 @@ import utils.PageMaker;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private CommentService commentService;
 
 	@GetMapping("/")
 	public String index(Model model) {
@@ -56,11 +59,12 @@ public class BoardController {
 	@GetMapping("/board/findOne")
 	public String findOne(Model model, @RequestParam int b_code) {
 		model.addAttribute("boardVO", boardService.findOne(b_code));
-		return "freeboard/viewboard";
+		model.addAttribute("commentList",commentService.getCommentList(b_code));
+		return "board/viewboard";
 	}
 	@GetMapping("/board/write")
 	public String write_form() {
-		return "freeboard/writeboard";
+		return "board/writeboard";
 	}
 
 

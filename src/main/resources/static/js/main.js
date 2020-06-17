@@ -37,6 +37,10 @@ $(document).ready(function(){
 			
 		})
 	});
+	$('.Recomment').hide();
+	$('.comment_info_button').on('click',function(){
+		$('.Recomment').show();
+	});
 })
 
 function view_board(b_code){

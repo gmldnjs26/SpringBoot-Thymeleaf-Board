@@ -2,9 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: head">
 <body>
+	<div th:replace="fragments/mymodal::mymodal"></div>
+	<script th:inline="javascript">
+		if([[${ isLogin }]]) {
+			if([[${ message != null }]]) console.log("[[${ message }]]");
+			$('.mymodal #elegantModalForm').modal('show');
+		}
+	</script>
+	
 	<div class="wrapper">
 		<!-- Sidebar Holder -->
 		<nav th:replace="fragments/sidebar :: sidebar"></nav>
+		
 
 		<!-- Page Content Holder -->
 		<div id="content">
@@ -76,18 +85,16 @@
 					<hr />
 					<a href="/board/write" class="btn btn-primary eBtn">Write</a>
 					<!-- Paging  -->
-				
+
 					<div class="pagination2"
 						th:with="start=${pageMaker.startPage}, end=${pageMaker.endPage}">
 						<a th:if="${pageMaker.prev}"
 							th:href="@{/board/list(page=${pageMaker.startPage-1})}"
-							class="prev"> <i class="fa fa-angle-double-left"></i></a>
-							
-						<a th:each="num: ${#numbers.sequence(start,end)}"
-							th:href="@{/board/list(page=${num})}" class="page-number">
-							<i  th:text="${num}"></i>
-						</a>
-						<a th:if="${pageMaker.next && pageMaker.endPage >0 }"
+							class="prev"> <i class="fa fa-angle-double-left"></i></a> <a
+							th:each="num: ${#numbers.sequence(start,end)}"
+							th:href="@{/board/list(page=${num})}" class="page-number"> <i
+							th:text="${num}"></i>
+						</a> <a th:if="${pageMaker.next && pageMaker.endPage >0 }"
 							th:href="@{/board/list(page=${pageMaker.endPage+1})}"
 							class="next"> <i class="fa fa-angle-double-right"></i></a>
 					</div>
@@ -95,13 +102,6 @@
 			</div>
 		</div>
 	</div>
-	<div th:replace="fragments/mymodal::mymodal"></div>
-
-	<script th:inline="javascript">
-	if([[${ isLogin }]]) {
-		$('.mymodal #elegantModalForm').modal('show');
-	}
-	</script>
 </body>
 
 </html>

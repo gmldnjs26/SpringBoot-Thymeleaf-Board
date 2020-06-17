@@ -37,8 +37,14 @@ public class MemberController {
 	@GetMapping("/login_success")
 	public String login_success(@AuthenticationPrincipal User user,Model model) {
 		MemberVO memberVO = memberService.findOne(user.getUsername());
-		System.out.println(memberVO.getId());
+		System.out.println("LoginSuccess");
 		model.addAttribute("loginMember", memberVO);
 		return "redirect:/";
+	}
+	@GetMapping("/login_fail")
+	public String login_fail(Model model) {
+		model.addAttribute("isLogin",true);
+		model.addAttribute("message","Login Fail");
+		return "index";
 	}
 }

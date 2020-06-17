@@ -49,5 +49,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findOne" parameterType="int" resultMap="board">
 		SELECT * FROM BOARD WHERE B_CODE = #{b_code}
 	</select>
+	
+	<update id="updateHit" parameterType = "int" >
+		UPDATE BOARD SET B_HIT = B_HIT + 1 WHERE B_CODE = #{b_code}
+	</update>
 
 </mapper>

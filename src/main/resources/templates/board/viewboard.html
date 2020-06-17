@@ -34,8 +34,7 @@
 				<div class="ArticleTitle">
 					<a
 						href="https://cafe.naver.com/ArticleList.nhn?search.clubid=11192577&amp;search.menuid=13&amp;search.boardtype=L"
-						class="link_board" th:text="${boardVO.b_kind}">  
-						</a>
+						class="link_board" th:text="${boardVO.b_kind}"> </a>
 					<div class="title_area">
 						<!---->
 						<!---->
@@ -52,13 +51,14 @@
 					<div class="profile_area">
 						<div class="profile_info">
 							<div class="nick_box">
-								<a id="writerInfonhsang" href="#" role="button" class="nickname" > </a>
+								<a id="writerInfonhsang" href="#" role="button" class="nickname">
+								</a>
 								<!---->
 							</div>
 						</div>
 						<div class="article_info">
-							<span class="date" th:text="${boardVO.b_indate}"></span>
-							조회 : <span class="count" th:text="${boardVO.b_hit}"> </span>
+							<span class="date" th:text="${boardVO.b_indate}"></span> 조회 : <span
+								class="count" th:text="${boardVO.b_hit}"> </span>
 						</div>
 					</div>
 				</div>
@@ -91,19 +91,17 @@
 					</div>
 					<!---->
 				</div>
-				<div class="ReplyBox">
-					
-				</div>
+				<div class="ReplyBox"></div>
 				<div class="CommentBox">
 					<div class="comment_option">
 						<h3 class="comment_title">Comment List</h3>
 					</div>
-					<ul class="comment_list">
-						<li id="96321083" class="CommentItem"><div
-								class="comment_area">
+					<ul class="comment_list" th:each="commentVO:${commentList}">
+						<li id="96321083" class="CommentItem">
+							<div class="comment_area">
 								<a
 									href="https://cafe.naver.com/CafeMemberNetworkView.nhn?m=view&amp;clubid=11192577&amp;memberid=ehdrbzzzzz"
-									class="comment_thumb"><img
+									class="comment_thumb"> <img
 									src="https://ssl.pstatic.net/static/cafe/cafe_pc/default/cafe_profile_77.png?type=c77_77"
 									alt="프로필 사진" width="36" height="36"></a>
 								<div class="comment_box">
@@ -111,7 +109,7 @@
 										<div class="comment_nick_info">
 											<a id="cih96321083" href="#" role="button"
 												aria-haspopup="true" aria-expanded="false"
-												class="comment_nickname"> 노노놋 </a>
+												class="comment_nickname" th:text="${commentVO.c_writer}"></a>
 											<!---->
 										</div>
 										<!---->
@@ -119,27 +117,45 @@
 									<div class="comment_text_box">
 										<p class="comment_text_view">
 											<!---->
-											<span class="text_comment">회사는 전혀 문제 없어보아네요^^</span>
+											<span class="text_comment" th:text="${commentVO.c_contents}"></span>
 										</p>
 										<!---->
 									</div>
 									<div class="comment_info_box">
-										<span class="comment_info_date">2020.05.18. 16:42</span><a
+										<span class="comment_info_date" th:text="${commentVO.indate}"></span><a
 											href="#" role="button" class="comment_info_button"> 답글쓰기
 										</a>
 									</div>
-									<div data-v-1fe2585c="" class="comment_tool">
-										<a data-v-1fe2585c="" id="commentItem96321083" href="#"
-											role="button" title="더보기" class="comment_tool_button"><svg
-												data-v-1fe2585c="" aria-hidden="true"
-												class="svg-icon ico-post-more-979797">
-											<use data-v-1fe2585c="" xlink:href="#ico-post-more-979797"></use></svg></a>
-										<!---->
+									<div class="CommentWriter Recomment">
+										<form th:action="@{/comment/insert}" method="post">
+											<div class="comment_inbox">
+												<strong class="blind">Comment</strong> <em
+													class="comment_inbox_name"
+													th:text="${session.loginMember.id}"></em> <input
+													type="hidden" name="c_writer"
+													th:value="${session.loginMember.id}"> <input
+													type="hidden" name="b_code" th:value="${boardVO.b_code}">
+												<textarea placeholder="Please enter a comment" rows="1"
+													name="c_contents" class="comment_inbox_text"
+													style="overflow: hidden; overflow-wrap: break-word; height: 17px;"></textarea>
+												<!---->
+												<!---->
+											</div>
+											<div class="comment_attach">
+												<div class="register_box">
+													<input type="submit" value="submit"
+														class="button btn_register">
+												</div>
+											</div>
+										</form>
 									</div>
+
+									<!-- "!#"#!"#!"#!"#!#!"#!""#!#!"#!# -->
 								</div>
-							</div></li>
+							</div>
+						</li>
 						<!---->
-						<li id="96321523" class="CommentItem CommentItem--reply"><div
+						<!-- <li id="96321523" class="CommentItem CommentItem--reply"><div
 								class="comment_area">
 								<a
 									href="https://cafe.naver.com/CafeMemberNetworkView.nhn?m=view&amp;clubid=11192577&amp;memberid=nhsang"
@@ -152,7 +168,7 @@
 											<a id="cih96321523" href="#" role="button"
 												aria-haspopup="true" aria-expanded="false"
 												class="comment_nickname"> 로이하 </a>
-											<!---->
+											
 										</div>
 										<em class="comment_badge_writer"><svg aria-hidden="true"
 												class="svg-icon ico-post-writer">
@@ -160,49 +176,46 @@
 									</div>
 									<div class="comment_text_box">
 										<p class="comment_text_view">
-											<!---->
+											
 											<span class="text_comment">허허허.. 그렇군요.. ㅠㅠ<br>나라에서는
 												이 기간까지는 노력해달라고 말하고 있는건데 무시하고 출근하라고 말하는 회사가 너무 못마땅해보이네요. 차라리
 												재택을 아예 안했더라면 이런 생각도 안할텐데 싶기도 하고.. ㅠㅠ<br>역시 그낭 제가 단순히 맘이
 												떠난걸까요... ㅠㅠ
 											</span>
 										</p>
-										<!---->
+										
 									</div>
 									<div class="comment_info_box">
 										<span class="comment_info_date">2020.05.18. 16:53</span><a
 											href="#" role="button" class="comment_info_button"> 답글쓰기
 										</a>
 									</div>
-									<div data-v-1fe2585c="" class="comment_tool">
-										<a data-v-1fe2585c="" id="commentItem96321523" href="#"
-											role="button" title="더보기" class="comment_tool_button"><svg
-												data-v-1fe2585c="" aria-hidden="true"
-												class="svg-icon ico-post-more-979797">
-											<use data-v-1fe2585c="" xlink:href="#ico-post-more-979797"></use></svg></a>
-										<!---->
-									</div>
+
 								</div>
-							</div></li>
+							</div></li> -->
 						<!---->
 					</ul>
 					<!---->
-					<div data-v-1cc43748="" class="CommentWriter">
-						<div data-v-1cc43748="" class="comment_inbox">
-							<strong class="blind">댓글을 입력하세요</strong><em
-								data-v-1cc43748="" class="comment_inbox_name">피콜로더듬이</em>
-							<textarea  placeholder="댓글을 남겨보세요" rows="1"
-								class="comment_inbox_text"
-								style="overflow: hidden; overflow-wrap: break-word; height: 17px;"></textarea>
-							<!---->
-							<!---->
-						</div>
-						<div  class="comment_attach">
-							<div  class="register_box">
-								<a href="#" role="button"
-									class="button btn_register">등록</a>
+					<div class="CommentWriter">
+						<form th:action="@{/comment/insert}" method="post">
+							<div class="comment_inbox">
+								<strong class="blind">Comment</strong> <em
+									class="comment_inbox_name" th:text="${session.loginMember.id}"></em>
+								<input type="hidden" name="c_writer"
+									th:value="${session.loginMember.id}"> <input
+									type="hidden" name="b_code" th:value="${boardVO.b_code}">
+								<textarea placeholder="Please enter a comment" rows="1"
+									name="c_contents" class="comment_inbox_text"
+									style="overflow: hidden; overflow-wrap: break-word; height: 17px;"></textarea>
+								<!---->
+								<!---->
 							</div>
-						</div>
+							<div class="comment_attach">
+								<div class="register_box">
+									<input type="submit" value="submit" class="button btn_register">
+								</div>
+							</div>
+						</form>
 					</div>
 					<!---->
 				</div>

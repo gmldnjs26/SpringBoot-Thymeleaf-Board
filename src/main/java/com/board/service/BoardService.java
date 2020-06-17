@@ -33,6 +33,7 @@ public class BoardService {
 	}
 
 	public BoardVO findOne(int b_code) {
+		boardMapper.updateHit(b_code);
 		return boardMapper.findOne(b_code);
 	}
 

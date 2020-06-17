@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="com.board.mapper.CommentMapper">
+	<select id="getCommentList" parameterType="int" resultType="com.board.dto.CommentVO">
+		SELECT * FROM COMMENTS WHERE B_CODE=#{b_code}
+	</select>
+	
+	<insert id="insert" parameterType="com.board.dto.CommentVO">
+		INSERT INTO COMMENTS(C_CONTENTS,B_CODE,C_WRITER) VALUES(#{c_contents},#{b_code},#{c_writer})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM COMMENTS WHERE C_CODE = #{c_code}
+	</delete>
+</mapper>
